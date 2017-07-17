@@ -1,0 +1,28 @@
+<html>
+<head>
+{% block head %}
+    <title>nbshow - {{path}}</title>
+    <style>
+        body {
+            max-width: 60em;
+            margin: 3em auto;
+        }
+        ul.tree {
+            margin-top: 2em;
+            list-style: none;
+            padding: 0px;
+        }
+    </style>
+{% endblock %}
+</head>
+<body>
+<div>
+{% for b in breadcrumbs -%}
+    <a href="{{ b['url'] }}">{{ b['label'] }}</a>{% if not loop.last %}/{% endif %}
+{%- endfor %}
+</div>
+
+{% block content %}
+{% endblock %}
+</body>
+</html>

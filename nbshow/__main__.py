@@ -44,22 +44,38 @@ def create_app(root):
             if not c.startswith('.')
         ]
 
-        breadcrumbs = get_breadcrumbs(p)
-
         return render_template(
             'tree.html',
             path=p,
             children=children,
-            breadcrumbs=breadcrumbs,
+            breadcrumbs=get_breadcrumbs(p),
         )
+
+    @app.route('/resource/<p>')
+    def resource(p):
+        paths = {
+            'ipython.min.css': 'static/style/ipython.min.css',
+            'style.min.css': 'static/style/style.min.css',
+        }
+
+        import notebook
+        p = os.path.join(os.path.dirname(notebook.__file__), paths[p])
+        with open(p, 'r') as fobj:
+            return fobj.read()
 
     @app.route('/show/<path:p>')
     def show(p):
+        return render_template(
+            'show.html',
+            path=p.strip(),
+            breadcrumbs=get_breadcrumbs(p),
+        )
+
+    @app.route('/render/<path:p>')
+    def render(p):
         full_path = os.path.join(root, p)
         if not is_subpath(root, full_path):
             raise RuntimeError('file not found')
-
-        # handle out of path situation
 
         with open(full_path, 'r') as fobj:
             nb = nbformat.read(fobj, as_version=4)
@@ -68,15 +84,7 @@ def create_app(root):
         html_exporter.template_file = 'basic'
         body, _ = html_exporter.from_notebook_node(nb)
 
-        breadcrumbs = get_breadcrumbs(p)
-        breadcrumbs = breadcrumbs[:-1]
-
-        return render_template(
-            'show.html',
-            path=p,
-            body=Markup(body),
-            breadcrumbs=breadcrumbs,
-        )
+        return body
 
     return app
 
@@ -97,9 +105,13 @@ def is_subpath(parent, child):
 def get_breadcrumbs(p):
     path_parts = _full_split(p)
 
-    breadcrumbs = [(Markup('&#8962;'), '')]
+    breadcrumbs = [{'label': Markup('&#8962;'), 'url': '/tree'}]
     breadcrumbs.extend(
-        zip(
+        {
+            'label': label,
+            'url': ('/tree/' + path) if not path.endswith('.ipynb') else ('/show/' + path),
+        }
+        for label, path in zip(
             path_parts,
             list(it.accumulate(path_parts, os.path.join))
         )

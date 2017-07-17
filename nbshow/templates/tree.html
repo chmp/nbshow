@@ -1,12 +1,10 @@
-<html>
-<head>
-    <title>nbshow - {{path}}</title>
-</head>
-<body>
-{% for label, path in breadcrumbs -%}
-    <a href="/tree/{{path}}">{{label}}</a>{% if not loop.last %}/{% endif %}
-{%- endfor %}
-<ul>
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="/resource/style.min.css">
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<ul class="tree">
     {% for child in children -%}
     <li>
         {%- if child['isdir'] -%}
@@ -19,5 +17,4 @@
     </li>
     {%- endfor %}
 </ul>
-</body>
-</html>
+{% endblock %}

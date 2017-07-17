@@ -1,11 +1,23 @@
-<html>
-<head>
-    <title>nbshow - {{path}}</title>
-</head>
-<body>
-{% for label, path in breadcrumbs -%}
-    <a href="/tree/{{path}}">{{label}}</a>{% if not loop.last %}/{% endif %}
-{%- endfor %}
-{{ body }}
-</body>
-</html>
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="/resource/ipython.min.css">
+    <link rel="stylesheet" href="/resource/style.min.css">
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<div id="body">Loading ...</div>
+
+<script>
+(function() {
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+        if (req.readyState !== XMLHttpRequest.DONE) {
+            return;
+        }
+        document.getElementById('body').innerHTML = (req.status === 200) ? req.responseText : 'could not retrieve body';
+    }
+    req.open('GET', '/render/{{ path }}');
+    req.send();
+})();
+</script>
+{% endblock %}
