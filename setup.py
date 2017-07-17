@@ -1,6 +1,5 @@
 from setuptools import setup
 
-
 setup(
     name='nbshow',
     version='0.1.0',
@@ -23,4 +22,8 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
     ],
+    entry_points='''
+        [console_scripts]
+        nbshow=nbshow.__main__:main
+    ''',
 )

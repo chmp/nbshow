@@ -10,10 +10,11 @@ from flask import Flask, redirect, render_template, Markup
 
 @click.command(name='nbshow')
 @click.argument('path', default='.')
-def main(path):
+@click.option('--port', type=int)
+@click.option('--host')
+def main(path, host, port):
     app = create_app(path)
-
-    app.run()
+    app.run(host=host, port=port)
 
 
 def create_app(root):
