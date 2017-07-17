@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>nbshow - {{path}}</title>
+</head>
+<body>
+{% for label, path in breadcrumbs -%}
+    <a href="/tree/{{path}}">{{label}}</a>{% if not loop.last %}/{% endif %}
+{%- endfor %}
+<ul>
+    {% for child in children -%}
+    <li>
+        {%- if child['isdir'] -%}
+            <a href="/tree/{{ child['path'] }}">{{ child['name'] }}</a>
+        {%- elif child['isnb'] -%}
+            <a href="/show/{{ child['path'] }}">{{ child['name'] }}</a>
+        {%- else -%}
+            {{ child['name'] }}
+        {%- endif -%}
+    </li>
+    {%- endfor %}
+</ul>
+</body>
+</html>

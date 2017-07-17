@@ -1,0 +1,11 @@
+<html>
+<head>
+    <title>nbshow - {{path}}</title>
+</head>
+<body>
+{% for label, path in breadcrumbs -%}
+    <a href="/tree/{{path}}">{{label}}</a>{% if not loop.last %}/{% endif %}
+{%- endfor %}
+{{ body }}
+</body>
+</html>
