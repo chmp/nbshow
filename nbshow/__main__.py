@@ -45,6 +45,11 @@ def create_app(root):
             if not c.startswith('.')
         ]
 
+        children = sorted(
+            children,
+            key=lambda d: (not d['isdir'], not d['isnb'], d['path']),
+        )
+
         return render_template(
             'tree.html',
             path=p,
