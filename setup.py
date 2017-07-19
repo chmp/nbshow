@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(
     name='nbshow',
-    version='0.1.0',
-    description='Simple readonly viewer for notebooks',
+    version='0.2.0',
+    description='Simple read-only viewer for notebooks',
     author='Christopher Prohm',
     author_email='mail@cprohm.de',
     license='MIT',
@@ -26,4 +26,5 @@ setup(
         [console_scripts]
         nbshow=nbshow.__main__:main
     ''',
+    include_package_data=True,
 )
