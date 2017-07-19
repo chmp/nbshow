@@ -11,6 +11,7 @@ setup(
     setup_requires=[
         'click',
         'flask',
+        'jupyter',
         'nbconvert',
         'nbformat',
     ],
