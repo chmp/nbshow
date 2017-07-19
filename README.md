@@ -1,4 +1,6 @@
-# nbshow - show jupyter notebooks as read-only
+# `nbshow` - show jupyter notebooks as read-only
+
+Ever wanted to browse a directory of notebooks without changing all of them? `nbshow` is here to help.
 
 ## Installation
 
@@ -11,3 +13,5 @@ pip install git+https://github.com/chmp/nbshow.git
 ```bash
 nbshow .
 ```
+
+Point your browser to url show, per default `localhost:5000`.
